@@ -260,7 +260,7 @@ class Dumper
                 $element->setAttribute('nillable', 'true');
             }
 
-            if ($type instanceof ArrayOfType) {
+            if ($type instanceof ArrayOfType || $this->endsWith($child->getType(), "*")) {
                 $element->setAttribute('minOccurs', 0);
                 $element->setAttribute('maxOccurs', 'unbounded');
             }
@@ -350,5 +350,13 @@ class Dumper
         }
 
         return $this->version12;
+    }
+    
+    protected function endsWith($string, $ending)
+    {
+        $len = strlen($ending);
+        $string_end = substr($string, strlen($string) - $len);
+
+        return $string_end == $ending;
     }
 }
